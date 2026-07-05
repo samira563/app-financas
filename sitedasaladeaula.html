@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turma 8º Ano — 八年生</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sakura: #FFB7C5;
+    --sakura-dark: #e8789a;
+    --ink: #1a1a2e;
+    --ink-light: #2d2d44;
+    --gold: #f5c842;
+    --gold-dark: #d4a017;
+    --white: #fefaf6;
+    --cream: #fff5e6;
+    --red: #c0392b;
+    --blue-ink: #1b3a5e;
+    --teal: #0d7377;
+    --paper: #fdf6e3;
+    --shadow: rgba(26,26,46,0.18);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--ink);
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='4' fill='%23FFB7C5' opacity='0.8'/%3E%3C/svg%3E") 10 10, auto;
+  }
+
+  /* ===== SAKURA PARTICLES ===== */
+  .sakura-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .petal {
+    position: absolute;
+    width: 10px; height: 10px;
+    background: radial-gradient(circle, #ffcdd6 30%, #ffb7c5 70%);
+    border-radius: 0 100% 0 100%;
+    opacity: 0;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0.8; }
+    100% { transform: translateY(110vh) rotate(360deg) translateX(60px); opacity: 0; }
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    position: relative; z-index: 10;
+    background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 40%, #16213e 100%);
+    border-bottom: 3px solid var(--sakura);
+    padding: 0;
+    overflow: hidden;
+  }
+  .header-decor {
+    position: absolute; top: 0; right: 0;
+    width: 300px; height: 100%;
+    background: radial-gradient(ellipse at right, rgba(255,183,197,0.12) 0%, transparent 70%);
+  }
+  .header-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .logo-area {
+    display: flex; align-items: center; gap: 18px;
+  }
+  .kanji-badge {
+    width: 70px; height: 70px;
+    background: linear-gradient(135deg, var(--sakura-dark), var(--sakura));
+    border-radius: 12px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: 'Sawarabi Mincho', serif;
+    font-size: 28px; font-weight: bold; color: var(--ink);
+    box-shadow: 0 4px 20px rgba(255,119,150,0.4);
+    position: relative;
+    animation: badge-pulse 3s ease-in-out infinite;
+  }
+  .kanji-badge span:last-child { font-size: 11px; letter-spacing: 2px; }
+  @keyframes badge-pulse {
+    0%,100% { box-shadow: 0 4px 20px rgba(255,119,150,0.4); }
+    50% { box-shadow: 0 4px 30px rgba(255,119,150,0.7); }
+  }
+  .title-group h1 {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 28px; font-weight: 900;
+    background: linear-gradient(90deg, var(--white), var(--sakura));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+  }
+  .title-group p {
+    font-size: 12px; color: var(--sakura); letter-spacing: 4px;
+    font-family: 'Sawarabi Mincho', serif;
+    margin-top: 3px;
+  }
+  nav { display: flex; gap: 6px; }
+  nav button {
+    background: transparent;
+    border: 1.5px solid rgba(255,183,197,0.3);
+    color: var(--white);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative; overflow: hidden;
+  }
+  nav button::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--sakura-dark), var(--sakura));
+    opacity: 0; transition: opacity 0.3s;
+  }
+  nav button:hover::before, nav button.active::before { opacity: 1; }
+  nav button span { position: relative; z-index: 1; }
+  nav button:hover { border-color: var(--sakura); color: var(--ink); }
+  nav button.active { border-color: var(--sakura); color: var(--ink); }
+
+  /* ===== MAIN ===== */
+  main {
+    max-width: 1200px; margin: 0 auto;
+    padding: 40px 20px;
+    position: relative; z-index: 5;
+  }
+
+  /* ===== SECTIONS ===== */
+  .section { display: none; animation: fadeSlide 0.5s ease forwards; }
+  .section.active { display: block; }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-title {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 32px; font-weight: 900;
+    margin-bottom: 30px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-title .jp { font-family: 'Sawarabi Mincho', serif; font-size: 14px; color: var(--sakura); letter-spacing: 3px; }
+  .section-title::before {
+    content: ''; display: block;
+    width: 6px; height: 36px;
+    background: linear-gradient(180deg, var(--sakura), var(--sakura-dark));
+    border-radius: 3px;
+  }
+
+  /* ===== GRADE ===== */
+  .grade-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .subject-card {
+    background: linear-gradient(135deg, var(--ink-light), #232342);
+    border: 1px solid rgba(255,183,197,0.15);
+    border-radius: 16px; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .subject-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255,183,197,0.2);
+  }
+  .card-header {
+    padding: 18px 20px 14px;
+    display: flex; align-items: center; gap: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .subject-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .card-header h3 { font-size: 16px; font-weight: 700; }
+  .card-header p { font-size: 11px; color: rgba(255,255,255,0.5); font-family: 'Sawarabi Mincho'; letter-spacing: 2px; margin-top: 3px; }
+  .card-body { padding: 16px 20px; }
+  .schedule-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 13px;
+  }
+  .schedule-row:last-child { border-bottom: none; }
+  .schedule-row .day { color: var(--sakura); font-weight: 600; }
+  .schedule-row .time { color: rgba(255,255,255,0.6); }
+  .teacher-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,183,197,0.1); border: 1px solid rgba(255,183,197,0.2);
+    border-radius: 20px; padding: 4px 12px; margin-top: 12px;
+    font-size: 11px; color: var(--sakura);
+  }
+
+  /* ===== NEWS ===== */
+  .news-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+  .news-featured {
+    background: linear-gradient(135deg, var(--ink-light), #1e1e38);
+    border: 1px solid rgba(255,183,197,0.2);
+    border-radius: 20px; overflow: hidden;
+  }
+  .news-banner {
+    height: 180px;
+    background: linear-gradient(135deg, #16213e, #0f3460);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 80px; position: relative; overflow: hidden;
+  }
+  .news-banner::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(26,26,46,0.8));
+  }
+  .news-featured-body { padding: 22px 24px; }
+  .news-tag {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--sakura-dark), var(--sakura));
+    color: var(--ink); font-size: 10px; font-weight: 700;
+    padding: 3px 10px; border-radius: 10px; letter-spacing: 1.5px;
+    margin-bottom: 10px;
+  }
+  .news-featured-body h2 { font-size: 22px; font-weight: 800; line-height: 1.4; margin-bottom: 10px; }
+  .news-featured-body p { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.7; }
+  .news-meta { display: flex; gap: 16px; margin-top: 14px; font-size: 11px; color: rgba(255,255,255,0.4); }
+
+  .news-sidebar { display: flex; flex-direction: column; gap: 14px; }
+  .news-small {
+    background: var(--ink-light);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px; padding: 16px;
+    display: flex; gap: 14px; align-items: flex-start;
+    transition: border-color 0.3s;
+    cursor: pointer;
+  }
+  .news-small:hover { border-color: rgba(255,183,197,0.3); }
+  .news-small-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+  .news-small h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .news-small p { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+  /* ===== AVISOS ===== */
+  .avisos-list { display: flex; flex-direction: column; gap: 16px; }
+  .aviso-card {
+    background: var(--ink-light);
+    border-left: 4px solid var(--sakura);
+    border-radius: 0 16px 16px 0;
+    padding: 18px 22px;
+    display: flex; gap: 18px; align-items: flex-start;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .aviso-card:hover { transform: translateX(4px); box-shadow: -4px 0 20px rgba(255,183,197,0.2); }
+  .aviso-card.urgente { border-left-color: #e74c3c; }
+  .aviso-card.info { border-left-color: #3498db; }
+  .aviso-card.evento { border-left-color: var(--gold); }
+  .aviso-icon { font-size: 30px; flex-shrink: 0; }
+  .aviso-content h3 { font-size: 16px; font-weight: 700; margin-bottom: 5px; }
+  .aviso-content p { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+  .aviso-footer { display: flex; gap: 12px; margin-top: 10px; font-size: 11px; }
+  .aviso-date { color: rgba(255,255,255,0.4); }
+  .aviso-badge {
+    padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .badge-urgente { background: rgba(231,76,60,0.2); color: #e74c3c; }
+  .badge-info { background: rgba(52,152,219,0.2); color: #3498db; }
+  .badge-evento { background: rgba(245,200,66,0.2); color: var(--gold); }
+
+  /* ===== FORUM ===== */
+  .forum-layout { display: grid; grid-template-columns: 3fr 1fr; gap: 24px; }
+  .forum-list { display: flex; flex-direction: column; gap: 14px; }
+  .forum-new-btn {
+    background: linear-gradient(135deg, var(--sakura-dark), var(--sakura));
+    border: none; color: var(--ink);
+    padding: 14px 28px; border-radius: 30px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer; margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(255,119,150,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .forum-new-btn:hover { transform: scale(1.03); box-shadow: 0 6px 24px rgba(255,119,150,0.5); }
+  .forum-thread {
+    background: var(--ink-light);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px; padding: 18px 20px;
+    display: flex; gap: 16px; align-items: flex-start;
+    cursor: pointer; transition: all 0.25s;
+  }
+  .forum-thread:hover {
+    border-color: rgba(255,183,197,0.3);
+    background: #252545;
+  }
+  .forum-thread.pinned { border-color: rgba(245,200,66,0.3); }
+  .forum-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.1);
+  }
+  .forum-thread-info { flex: 1; }
+  .forum-thread-info h4 { font-size: 15px; font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+  .pin-badge { font-size: 10px; background: rgba(245,200,66,0.2); color: var(--gold); padding: 2px 7px; border-radius: 6px; }
+  .forum-thread-info p { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+  .forum-thread-meta { display: flex; gap: 14px; margin-top: 8px; font-size: 11px; color: rgba(255,255,255,0.35); }
+  .forum-stats { text-align: center; }
+  .forum-stats .num { font-family: 'Zen Kaku Gothic New'; font-size: 20px; font-weight: 900; color: var(--sakura); }
+  .forum-stats .label { font-size: 10px; color: rgba(255,255,255,0.4); }
+
+  .forum-sidebar { display: flex; flex-direction: column; gap: 16px; }
+  .forum-widget {
+    background: var(--ink-light);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px; padding: 18px;
+  }
+  .forum-widget h4 { font-size: 13px; font-weight: 700; color: var(--sakura); letter-spacing: 2px; margin-bottom: 14px; }
+  .forum-user { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .forum-user:last-child { border-bottom: none; }
+  .forum-user .avatar { width: 32px; height: 32px; border-radius: 50%; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+  .forum-user .name { font-size: 13px; font-weight: 600; }
+  .forum-user .posts { font-size: 11px; color: rgba(255,255,255,0.4); }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(10,10,20,0.85);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: #1e1e38;
+    border: 1px solid rgba(255,183,197,0.25);
+    border-radius: 24px; padding: 32px;
+    width: 90%; max-width: 520px;
+    transform: scale(0.95); transition: transform 0.3s;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .modal-overlay.open .modal { transform: scale(1); }
+  .modal h3 { font-size: 22px; font-weight: 800; margin-bottom: 20px; }
+  .modal input, .modal textarea {
+    width: 100%; background: var(--ink);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px; padding: 12px 16px;
+    color: var(--white); font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px; margin-bottom: 14px;
+    transition: border-color 0.3s;
+  }
+  .modal input:focus, .modal textarea:focus { outline: none; border-color: var(--sakura); }
+  .modal textarea { height: 120px; resize: vertical; }
+  .modal-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+  .btn-cancel {
+    background: transparent; border: 1px solid rgba(255,255,255,0.2);
+    color: var(--white); padding: 10px 22px; border-radius: 20px;
+    cursor: pointer; font-family: 'Noto Sans JP'; transition: all 0.2s;
+  }
+  .btn-cancel:hover { border-color: rgba(255,255,255,0.4); }
+  .btn-post {
+    background: linear-gradient(135deg, var(--sakura-dark), var(--sakura));
+    border: none; color: var(--ink);
+    padding: 10px 24px; border-radius: 20px;
+    font-family: 'Zen Kaku Gothic New'; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-post:hover { transform: scale(1.04); }
+
+  /* ===== TORII DIVIDER ===== */
+  .torii-divider {
+    text-align: center; margin: 30px 0 20px;
+    color: rgba(255,183,197,0.25);
+    font-size: 28px; letter-spacing: 8px;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center; padding: 24px;
+    color: rgba(255,255,255,0.25); font-size: 12px;
+    letter-spacing: 2px; font-family: 'Sawarabi Mincho';
+    position: relative; z-index: 5;
+    border-top: 1px solid rgba(255,183,197,0.1);
+  }
+  footer span { color: var(--sakura); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .header-inner { flex-direction: column; gap: 14px; padding: 16px; }
+    nav { flex-wrap: wrap; justify-content: center; }
+    .news-layout, .forum-layout { grid-template-columns: 1fr; }
+    .title-group h1 { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SAKURA PETALS -->
+<div class="sakura-bg" id="sakuraBg"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-decor"></div>
+  <div class="header-inner">
+    <div class="logo-area">
+      <div class="kanji-badge">
+        <span>八</span>
+        <span>年生</span>
+      </div>
+      <div class="title-group">
+        <h1>Turma do 8º Ano</h1>
+        <p>✦ 八年生クラス ✦ ESCOLA SAKURA ✦</p>
+      </div>
+    </div>
+    <nav>
+      <button class="active" onclick="showSection('grade')"><span>📚 Grade</span></button>
+      <button onclick="showSection('noticias')"><span>📰 Notícias</span></button>
+      <button onclick="showSection('avisos')"><span>📢 Avisos</span></button>
+      <button onclick="showSection('forum')"><span>💬 Fórum</span></button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== GRADE ===== -->
+  <div class="section active" id="grade">
+    <div class="section-title">
+      Grade de Matérias
+      <span class="jp">時間割</span>
+    </div>
+    <div class="grade-grid">
+
+      <div class="subject-card">
+        <div class="card-header">
+          <div class="subject-icon" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">📐</div>
+          <div>
+            <h3>Matemática</h3>
+            <p>数学 • SUGAKU</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="schedule-row"><span class="day">Quinta</span><span class="time">07:30 – 10:30</span></div>
+          <div class="schedule-row"><span class="day">Sexta</span><span class="time">07:30 – 10:30</span></div>
+          <div class="teacher-badge">🧑‍🏫 Prof. Gabriel William</div>
+        </div>
+      </div>
+
+      <div class="subject-card">
+        <div class="card-header">
+          <div class="subject-icon" style="background:linear-gradient(135deg,#1a4731,#22c55e)">🌿</div>
+          <div>
+            <h3>Ciências</h3>
+            <p>理科 • RIKA</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="schedule-row"><span class="day">Quarta</span><span class="time">07:30 – 10:05</span></div>
+          <div class="teacher-badge">👩‍🏫 Prof.ª Laís</div>
+        </div>
+      </div>
+
+      <div class="subject-card">
+        <div class="card-header">
+          <div class="subject-icon" style="background:linear-gradient(135deg,#7c2d12,#ea580c)">📜</div>
+          <div>
+            <h3>Português</h3>
+            <p>国語 • KOKUGO</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="schedule-row"><span class="day">Terça</span><span class="time">07:30 – 10:05</span></div>
+          <div class="teacher-badge">👩‍🏫 Prof.ª Luyana</div>
+        </div>
+      </div>
+
+      <div class="subject-card">
+        <div class="card-header">
+          <div class="subject-icon" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">🗺️</div>
+
+ <div>
+            <h3>Redação</h3>
+            <p>エッセイ • ESSEI</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="schedule-row"><span class="day">Segunda</span><span class="time">07:30 – 10:05</span></div>
+          <div class="teacher-badge">👩‍🏫 Prof.ª Luyana</div>
+        </div>
+      </div>
+
+      <div class="subject-card">
+        <div class="card-header">
+          <div class="subject-icon" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">🗺️</div>
+
+          <div>
+            <h3>História</h3>
+            <p>歴史 • REKISHI</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="schedule-row"><span class="day">Sexta</span><span class="time">10:30 – 12:00</span></div>
+          <div class="teacher-badge">👨‍🏫 Prof. Alexandre</div>
+        </div>
+      </div>
+
+      <div class="subject-card">
+        <div class="card-header">
+          <div class="subject-icon" style="background:linear-gradient(135deg,#064e3b,#10b981)">🌍</div>
+          <div>
+            <h3>Geografia</h3>
+            <p>地理 • CHIRI</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="schedule-row"><span class="day">Terça</span><span class="time">10:30 – 12:00</span></div>
+          <div class="teacher<div class="teacher-badge">👩‍🏫 Prof.ª Adriana Rangel</div>
+        </div>
+      </div>
+
+      <div class="subject-card">
+        <div class="card-header">
+          <div class="subject-icon" style="background:linear-gradient(135deg,#7f1d1d,#ef4444)">🇬🇧</div>
+          <div>
+            <h3>Inglês</h3>
+            <p>英語 • EIGO</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="schedule-row"><span class="day">Quarta</span><span class="time">10:30 – 12:00</span></div>
+          <div class="teacher-badge">👨‍🏫 Prof. Hiron Marques</div>
+        </div>
+      </div>
+
+      <div class="subject-card">
+        <div class="card-header">
+          <div class="subject-icon" style="background:linear-gradient(135deg,#1e3a5f,#0ea5e9)">🎨</div>
+          <div>
+            <h3>Artes</h3>
+            <p>美術 • BIJUTSU</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="schedule-row"><span class="day">Segunda</span><span class="time">10:30 – 12:00</span></div>
+          <div class="teacher-badge">👩‍🎨 Prof.ª Mariana</div>
+        </div>
+      </div>
+
+      <div class="subject-card">
+        <div class="card-header">
+          <div class="subject-icon" style="background:linear-gradient(135deg,#713f12,#f59e0b)">⚽</div>
+          <div>
+            <h3>Ed. Física</h3>
+            <p>体育 • TAIIKU</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="schedule-row"><span class="day">Quinta</span><span class="time">10:30 – 12:00</span></div>
+          <div class="teacher-badge">👨‍🏫 Prof. Kleison</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="torii-divider">⛩ ⛩ ⛩</div>
+  </div>
+
+  <!-- ===== NOTÍCIAS ===== -->
+  <div class="section" id="noticias">
+    <div class="section-title">
+      Notícias da Turma
+      <span class="jp">クラスニュース</span>
+    </div>
+    <div class="news-layout">
+      <div class="news-featured">
+        <div class="news-banner">🌸</div>
+        <div class="news-featured-body">
+          <div class="news-tag">✨ DESTAQUE</div>
+          <h2>Feira de Ciências 2025 — Turma conquista 1º lugar!</h2>
+          <p>A equipe do 8º Ano apresentou um incrível projeto sobre energia solar e ficou em primeiro lugar na Feira de Ciências da escola. Parabéns a todos os participantes por dedicação e criatividade!</p>
+          <div class="news-meta">
+            <span>📅 05/05/2025</span>
+            <span>✍️ Direção Escolar</span>
+            <span>👁 142 visualizações</span>
+          </div>
+        </div>
+      </div>
+      <div class="news-sidebar">
+        <div class="news-small">
+          <div class="news-small-icon">📝</div>
+          <div>
+            <h4>Prova bimestral de Matemática</h4>
+            <p>A prova do 2º bimestre será aplicada no dia 20/05. Revisão na aula anterior.</p>
+            <div class="news-meta" style="margin-top:6px;font-size:10px;color:rgba(255,255,255,0.3)">📅 03/05/2025</div>
+          </div>
+        </div>
+        <div class="news-small">
+          <div class="news-small-icon">🏃</div>
+          <div>
+            <h4>Jogos Interclasses — inscrições abertas</h4>
+            <p>Modalidades: futebol, vôlei e xadrez. Inscreva-se até 15/05.</p>
+            <div class="news-meta" style="margin-top:6px;font-size:10px;color:rgba(255,255,255,0.3)">📅 02/05/2025</div>
+          </div>
+        </div>
+        <div class="news-small">
+          <div class="news-small-icon">🎭</div>
+          <div>
+            <h4>Semana Cultural — programação divulgada</h4>
+            <p>A Semana Cultural acontece nos dias 26 a 30 de maio. Confirme sua participação!</p>
+            <div class="news-meta" style="margin-top:6px;font-size:10px;color:rgba(255,255,255,0.3)">📅 01/05/2025</div>
+          </div>
+        </div>
+        <div class="news-small">
+          <div class="news-small-icon">📚</div>
+          <div>
+            <h4>Biblioteca abre nos sábados</h4>
+            <p>A biblioteca estará aberta aos sábados das 8h às 12h durante o mês de maio.</p>
+            <div class="news-meta" style="margin-top:6px;font-size:10px;color:rgba(255,255,255,0.3)">📅 28/04/2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="torii-divider">⛩ ⛩ ⛩</div>
+  </div>
+
+  <!-- ===== AVISOS ===== -->
+  <div class="section" id="avisos">
+    <div class="section-title">
+      Avisos Importantes
+      <span class="jp">お知らせ</span>
+    </div>
+    <div class="avisos-list">
+
+      <div class="aviso-card urgente">
+        <div class="aviso-icon">🚨</div>
+        <div class="aviso-content">
+          <h3>Entrega do trabalho de Ciências — Prazo Final!</h3>
+          <p>O trabalho sobre ecossistemas deve ser entregue AMANHÃ, 09/05, até as 17h, na sala da Prof.ª de Ciências ou enviado pelo e-mail da turma. Trabalhos fora do prazo receberão desconto na nota.</p>
+          <div class="aviso-footer">
+            <span class="aviso-date">📅 08/05/2025</span>
+            <span class="aviso-badge badge-urgente">⚠ URGENTE</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="aviso-card evento">
+        <div class="aviso-icon">🎉</div>
+        <div class="aviso-content">
+          <h3>Festa Junina — confirmação de presença</h3>
+          <p>A Festa Junina será no dia 14 de junho, a partir das 14h. A turma precisa escolher a quadrilha e confirmar os alunos participantes até o dia 25/05. Fale com a representante de turma!</p>
+          <div class="aviso-footer">
+            <span class="aviso-date">📅 07/05/2025</span>
+            <span class="aviso-badge badge-evento">🎊 EVENTO</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="aviso-card info">
+        <div class="aviso-icon">📋</div>
+        <div class="aviso-content">
+          <h3>Reunião de pais e responsáveis</h3>
+          <p>A reunião do 1º bimestre acontecerá no dia 16/05, às 19h, no auditório da escola. Presença obrigatória. O boletim será entregue pessoalmente.</p>
+          <div class="aviso-footer">
+            <span class="aviso-date">📅 06/05/2025</span>
+            <span class="aviso-badge badge-info">ℹ INFO</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="aviso-card info">
+        <div class="aviso-icon">📸</div>
+        <div class="aviso-content">
+          <h3>Foto oficial da turma — dia 12/05</h3>
+          <p>A foto oficial será tirada na segunda-feira, 12/05, às 10h, no pátio. Todos devem estar uniformizados. A compra é opcional — pedidos pelo link no grupo da turma.</p>
+          <div class="aviso-footer">
+            <span class="aviso-date">📅 05/05/2025</span>
+            <span class="aviso-badge badge-info">ℹ INFO</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="aviso-card">
+        <div class="aviso-icon">🔕</div>
+        <div class="aviso-content">
+          <h3>Uso de celular em sala de aula — lembrete</h3>
+          <p>Reforçamos que o uso de celulares durante as aulas é proibido conforme regimento escolar. Aparelhos apreendidos só serão devolvidos aos responsáveis.</p>
+          <div class="aviso-footer">
+            <span class="aviso-date">📅 04/05/2025</span>
+            <span class="aviso-badge" style="background:rgba(255,183,197,0.15);color:var(--sakura)">📌 GERAL</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="torii-divider">⛩ ⛩ ⛩</div>
+  </div>
+
+  <!-- ===== FORUM ===== -->
+  <div class="section" id="forum">
+    <div class="section-title">
+      Fórum da Turma
+      <span class="jp">掲示板</span>
+    </div>
+    <div class="forum-layout">
+      <div>
+        <button class="forum-new-btn" onclick="openModal()">
+          ✏️ <span>Criar novo tópico</span>
+        </button>
+        <div class="forum-list" id="forumList">
+
+          <div class="forum-thread pinned">
+            <div class="forum-avatar" style="background:linear-gradient(135deg,#f5c842,#d4a017)">📌</div>
+            <div class="forum-thread-info">
+              <h4>Regras do Fórum <span class="pin-badge">📌 FIXADO</span></h4>
+              <p>Respeite os colegas, não use linguagem ofensiva, e mantenha os tópicos relacionados à turma e aos estudos. Bom convívio!</p>
+              <div class="forum-thread-meta">
+                <span>👤 Direção</span><span>💬 3 respostas</span><span>📅 01/04/2025</span>
+              </div>
+            </div>
+            <div class="forum-stats">
+              <div class="num">3</div>
+              <div class="label">posts</div>
+            </div>
+          </div>
+
+          <div class="forum-thread">
+            <div class="forum-avatar" style="background:linear-gradient(135deg,#e879a0,#ffb7c5)">🦊</div>
+            <div class="forum-thread-info">
+              <h4>Alguém entendeu a matéria de equações do 2º grau?</h4>
+              <p>Tô travado na parte de fatoração. Alguém pode dar uma força ou indicar um vídeo no YouTube?</p>
+              <div class="forum-thread-meta">
+                <span>👤 Haruto M.</span><span>💬 8 respostas</span><span>📅 07/05/2025</span>
+              </div>
+            </div>
+            <div class="forum-stats">
+              <div class="num">8</div>
+              <div class="label">posts</div>
+            </div>
+          </div>
+
+          <div class="forum-thread">
+            <div class="forum-avatar" style="background:linear-gradient(135deg,#3b82f6,#1e40af)">🐬</div>
+            <div class="forum-thread-info">
+              <h4>Grupo de estudos para a prova de Matemática</h4>
+              <p>Vamos marcar um grupo de estudos na biblioteca sábado de manhã? Quem tiver interesse, comenta aqui!</p>
+              <div class="forum-thread-meta">
+                <span>👤 Akira S.</span><span>💬 12 respostas</span><span>📅 06/05/2025</span>
+              </div>
+            </div>
+            <div class="forum-stats">
+              <div class="num">12</div>
+              <div class="label">posts</div>
+            </div>
+          </div>
+
+          <div class="forum-thread">
+            <div class="forum-avatar" style="background:linear-gradient(135deg,#22c55e,#15803d)">🌸</div>
+            <div class="forum-thread-info">
+              <h4>Ideia para a Semana Cultural — peça de teatro!</h4>
+              <p>E se a turma fizesse uma peça de teatro em vez de dança? Poderíamos adaptar algum anime haha</p>
+              <div class="forum-thread-meta">
+                <span>👤 Yuki T.</span><span>💬 19 respostas</span><span>📅 05/05/2025</span>
+              </div>
+            </div>
+            <div class="forum-stats">
+              <div class="num">19</div>
+              <div class="label">posts</div>
+            </div>
+          </div>
+
+          <div class="forum-thread">
+            <div class="forum-avatar" style="background:linear-gradient(135deg,#f59e0b,#92400e)">🎮</div>
+            <div class="forum-thread-info">
+              <h4>Recomendações de anime sobre escola/amizade</h4>
+              <p>Off-topic mas necessário: quais animes vocês assistem? Tô precisando de recomendações pra fds</p>
+              <div class="forum-thread-meta">
+                <span>👤 Ren K.</span><span>💬 25 respostas</span><span>📅 04/05/2025</span>
+              </div>
+            </div>
+            <div class="forum-stats">
+              <div class="num">25</div>
+              <div class="label">posts</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="forum-sidebar">
+        <div class="forum-widget">
+          <h4>TOP PARTICIPANTES</h4>
+          <div class="forum-user">
+            <div class="forum-avatar" style="background:linear-gradient(135deg,#f5c842,#d4a017);width:32px;height:32px;font-size:16px">🏆</div>
+            <div><div class="name">Yuki Tanaka</div><div class="posts">42 posts</div></div>
+          </div>
+          <div class="forum-user">
+            <div class="forum-avatar" style="background:linear-gradient(135deg,#9ca3af,#6b7280);width:32px;height:32px;font-size:16px">🥈</div>
+            <div><div class="name">Ren Kawamoto</div><div class="posts">38 posts</div></div>
+          </div>
+          <div class="forum-user">
+            <div class="forum-avatar" style="background:linear-gradient(135deg,#b45309,#92400e);width:32px;height:32px;font-size:16px">🥉</div>
+            <div><div class="name">Akira Sato</div><div class="posts">31 posts</div></div>
+          </div>
+          <div class="forum-user">
+            <div class="forum-avatar" style="background:linear-gradient(135deg,#e879a0,#c026d3);width:32px;height:32px;font-size:16px">🌸</div>
+            <div><div class="name">Haruto Mizuki</div><div class="posts">22 posts</div></div>
+          </div>
+        </div>
+        <div class="forum-widget">
+          <h4>ESTATÍSTICAS</h4>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+            <div style="display:flex;justify-content:space-between;font-size:13px">
+              <span style="color:rgba(255,255,255,0.5)">Tópicos</span>
+              <span style="color:var(--sakura);font-weight:700">5</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px">
+              <span style="color:rgba(255,255,255,0.5)">Respostas</span>
+              <span style="color:var(--sakura);font-weight:700">67</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px">
+              <span style="color:rgba(255,255,255,0.5)">Membros</span>
+              <span style="color:var(--sakura);font-weight:700">32</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="torii-divider">⛩ ⛩ ⛩</div>
+  </div>
+
+</main>
+
+<footer>
+  <p>八年生 ✦ Turma do 8º Ano ✦ <span>Escola Sakura</span> ✦ 2026</p>
+  <p style="margin-top:5px;font-size:10px">頑張れ！— Ganbare! Vai em frente!</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>✏️ Novo Tópico</h3>
+    <input type="text" id="topicTitle" placeholder="Título do tópico..." maxlength="80">
+    <input type="text" id="topicAuthor" placeholder="Seu nome (ex: Yuki T.)..." maxlength="30">
+    <textarea id="topicBody" placeholder="Escreva sua mensagem..."></textarea>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-post" onclick="postTopic()">Publicar 🌸</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // NAV
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const idx = ['grade','noticias','avisos','forum'].indexOf(id);
+    document.querySelectorAll('nav button')[idx].classList.add('active');
+  }
+
+  // SAKURA PETALS
+  const bg = document.getElementById('sakuraBg');
+  const avatars = ['🌸','🌸','🌺','🌹'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const size = 6 + Math.random() * 10;
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      width:${size}px; height:${size}px;
+      animation-duration:${6+Math.random()*8}s;
+      animation-delay:${Math.random()*8}s;
+      opacity:${0.3+Math.random()*0.5};
+    `;
+    bg.appendChild(p);
+  }
+
+  // MODAL
+  function openModal() {
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+  document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  const emojis = ['🦊','🐱','🐼','🌟','⚡','🎯','🌙','🍜','🎮','🌈'];
+  const colors = [
+    'linear-gradient(135deg,#e879a0,#ffb7c5)',
+    'linear-gradient(135deg,#3b82f6,#1e40af)',
+    'linear-gradient(135deg,#22c55e,#15803d)',
+    'linear-gradient(135deg,#f59e0b,#92400e)',
+    'linear-gradient(135deg,#8b5cf6,#4c1d95)',
+    'linear-gradient(135deg,#06b6d4,#0e7490)',
+  ];
+
+  function postTopic() {
+    const title = document.getElementById('topicTitle').value.trim();
+    const author = document.getElementById('topicAuthor').value.trim() || 'Anônimo';
+    const body = document.getElementById('topicBody').value.trim();
+    if (!title || !body) { alert('Preencha o título e a mensagem!'); return; }
+
+    const emoji = emojis[Math.floor(Math.random()*emojis.length)];
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    const today = new Date().toLocaleDateString('pt-BR');
+
+    const thread = document.createElement('div');
+    thread.className = 'forum-thread';
+    thread.innerHTML = `
+      <div class="forum-avatar" style="background:${color}">${emoji}</div>
+      <div class="forum-thread-info">
+        <h4>${title}</h4>
+        <p>${body}</p>
+        <div class="forum-thread-meta">
+          <span>👤 ${author}</span><span>💬 0 respostas</span><span>📅 ${today}</span>
+        </div>
+      </div>
+      <div class="forum-stats"><div class="num">0</div><div class="label">posts</div></div>
+    `;
+
+    const list = document.getElementById('forumList');
+    list.insertBefore(thread, list.children[1]);
+
+    document.getElementById('topicTitle').value = '';
+    document.getElementById('topicAuthor').value = '';
+    document.getElementById('topicBody').value = '';
+    closeModal();
+  }
+</script>
+</body>
+</html>

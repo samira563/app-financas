@@ -1,0 +1,260 @@
+<!DOCTYPE html>  <html lang="pt-br">  
+<head>  
+<meta charset="UTF-8">  
+<title>Study.IA</title>  <style>  
+body{font-family:Arial;margin:0;background:#eef2ff;color:#000}  
+.dark{background:#121212;color:#fff}  
+  
+/* 🔥 ROXO */  
+:root{--cor:#4c1d95;--cor2:#4338ca}  
+  
+header{  
+background:linear-gradient(90deg,var(--cor),var(--cor2));  
+color:#fff;padding:15px;  
+display:flex;justify-content:space-between;align-items:center  
+}  
+  
+#container{max-width:700px;margin:20px auto}  
+  
+.card{  
+background:#fff;padding:20px;border-radius:20px;  
+box-shadow:0 10px 25px rgba(0,0,0,0.08)  
+}  
+  
+.dark .card{background:#1e1e1e}  
+  
+input{  
+width:100%;height:45px;border:none;border-radius:12px;  
+padding:0 12px;margin-top:8px;background:#f3f4f6  
+}  
+  
+button{  
+padding:10px;border:none;border-radius:12px;  
+margin-top:10px;background:var(--cor);color:#fff;cursor:pointer  
+}  
+  
+.premium{background:#ccc;color:#000}  
+  
+#chat{  
+height:300px;overflow-y:auto;margin-top:10px;  
+display:flex;flex-direction:column  
+}  
+  
+.msg{  
+max-width:70%;padding:10px;border-radius:12px;margin:5px 0  
+}  
+  
+.user{  
+align-self:flex-end;background:#5b21b6;color:#fff  
+}  
+  
+.bot{  
+align-self:flex-start;background:#fff;color:#000  
+}  
+  
+.feedback{display:flex;gap:10px;margin-top:5px}  
+.feedback span{cursor:pointer;font-size:18px;color:#ccc}  
+.feedback .active{color:#3b82f6}  
+  
+.menu-right{  
+position:fixed;top:0;left:-260px;width:260px;height:100%;  
+background:#fff;padding:15px;transition:0.3s  
+}  
+.menu-right.active{left:0}  
+  
+hr{margin:10px 0}  
+  
+#perfil{  
+position:fixed;top:0;left:0;width:100%;height:100%;  
+background:rgba(0,0,0,0.5);  
+display:none;align-items:center;justify-content:center  
+}  
+  
+#perfil .box{  
+background:#fff;padding:20px;border-radius:15px;  
+width:90%;max-width:400px  
+}  
+</style>  </head>  <body>  <header id="topo" style="display:none">  
+<button onclick="toggleMenuRight()">☰</button>  
+<div>Study.IA</div>  
+<button class="premium" onclick="ativarPremium()">Premium</button>  
+</header>  <!-- MENU -->  <div class="menu-right" id="menuRight">  <div onclick="abrirPerfil()" style="cursor:pointer">Perfil</div>  <hr>  <!-- TOPO -->  <button onclick="novoProjeto()">Novo projeto</button>
+<button onclick="novoChat()">Novo chat</button>
+
+<hr>  <!-- MODOS -->  <button onclick="modoProva()">Modo prova</button>
+<button onclick="modoExplicacao()">Modo explicação</button>
+<button onclick="modoHumanizar()">Humanizar</button>
+<button onclick="ativarPremium()">Upgrade Premium</button>
+
+<hr>  <h4>Histórico</h4>  
+<div id="historico"></div>  </div>  <!-- PERFIL -->  <div id="perfil">  
+<div class="box">  <h3>Perfil</h3>  <p id="planoAtual">Plano: grátis</p>  <input id="novoNome" placeholder="Nome">  
+<input id="novoEmail" placeholder="Email">  <h4>Personalização</h4>  
+<input id="estiloResposta" placeholder="Ex: simples, engraçado...">  <button onclick="salvarPerfil()">Salvar</button>
+<button onclick="sairConta()">Sair da conta</button>
+<button onclick="fecharPerfil()">Fechar</button>
+
+</div>  
+</div>  <div id="container">  <div id="login" class="card">  
+<h3>Entrar</h3>  
+<input id="usuario" placeholder="Usuário">  
+<input id="senha" type="password" placeholder="Senha">  
+<button onclick="entrar()">Entrar</button>  
+</div>  <div id="app" class="card" style="display:none">  <div id="chat"></div>  <input id="pergunta" placeholder="Responda a IA do estudante...">  <button onclick="enviar()">Enviar</button>
+
+</div>  
+</div>  <script>  
+  
+// LOGIN  
+function entrar(){  
+login.style.display="none";  
+app.style.display="block";  
+topo.style.display="flex";  
+renderHist();  
+}  
+  
+// PERFIL  
+function abrirPerfil(){  
+perfil.style.display="flex";  
+atualizarPerfil();  
+}  
+  
+function fecharPerfil(){  
+perfil.style.display="none";  
+}  
+  
+function atualizarPerfil(){  
+let plano = localStorage.getItem("plano") || "gratis";  
+planoAtual.innerText = "Plano: " + (plano === "premium" ? "Premium 💎" : "Grátis");  
+}  
+  
+function salvarPerfil(){  
+localStorage.setItem("estilo",estiloResposta.value);  
+alert("Salvo!");  
+fecharPerfil();  
+}  
+  
+function sairConta(){  
+localStorage.clear();  
+location.reload();  
+}  
+  
+// MENU  
+function toggleMenuRight(){  
+menuRight.classList.toggle("active");  
+}  
+  
+// MODOS  
+let modo = "";  
+  
+function modoProva(){  
+modo = "prova";  
+alert("Modo prova ativado");  
+}  
+  
+function modoExplicacao(){  
+modo = "explicacao";  
+alert("Modo explicação ativado");  
+}  
+  
+function modoHumanizar(){  
+modo = "humanizado";  
+alert("Modo humanizado ativado");  
+}  
+  
+function novoProjeto(){  
+chat.innerHTML="";  
+alert("Novo projeto criado");  
+}  
+  
+function novoChat(){  
+chat.innerHTML="";  
+}  
+  
+// PREMIUM  
+function ativarPremium(){  
+localStorage.setItem("plano","premium");  
+alert("Agora você é Premium 🚀");  
+}  
+  
+// HISTÓRICO  
+function salvarHistorico(pergunta,resposta){  
+let h=JSON.parse(localStorage.getItem("hist")||"[]");  
+h.push({pergunta,resposta});  
+localStorage.setItem("hist",JSON.stringify(h));  
+renderHist();  
+}  
+  
+function renderHist(){  
+let h=JSON.parse(localStorage.getItem("hist")||"[]");  
+  
+historico.innerHTML = h.map((item,i)=>  
+`<div onclick="abrirConversa(${i})" style="cursor:pointer">• ${item.pergunta}</div>`  
+).join("");  
+}  
+  
+function abrirConversa(i){  
+let h=JSON.parse(localStorage.getItem("hist")||"[]");  
+let c=h[i];  
+  
+chat.innerHTML = `  
+<div class='msg user'>${c.pergunta}</div>  
+<div class='msg bot'>${c.resposta}</div>  
+`;  
+}  
+  
+// CHAT  
+function enviar(){  
+let p=pergunta.value;  
+if(!p)return;  
+  
+chat.innerHTML += `<div class='msg user'>${p}</div>`;  
+  
+let id='id'+Date.now();  
+  
+chat.innerHTML += `<div class='msg bot' id='${id}'>analisando...</div>`;  
+  
+setTimeout(()=>{  
+let resposta="";  
+  
+if(modo==="prova"){  
+resposta="Resposta direta (modo prova)";  
+}  
+else if(modo==="explicacao"){  
+resposta="Explicando passo a passo...";  
+}  
+else if(modo==="humanizado"){  
+resposta="Olha, vou te explicar como uma pessoa mesmo 😄";  
+}  
+else{  
+resposta="Resposta padrão";  
+}  
+  
+document.getElementById(id).innerHTML = `  
+${resposta}  
+<div class='feedback'>  
+<span onclick="like(this)">👍</span>  
+<span onclick="dislike(this)">👎</span>  
+</div>  
+`;  
+  
+salvarHistorico(p,resposta);  
+  
+},1500);  
+  
+pergunta.value="";  
+}  
+  
+// FEEDBACK  
+function like(el){  
+el.classList.add("active");  
+el.nextElementSibling.classList.remove("active");  
+}  
+  
+function dislike(el){  
+el.classList.add("active");  
+el.previousElementSibling.classList.remove("active");  
+}  
+  
+</script>  </body>  
+</html>
